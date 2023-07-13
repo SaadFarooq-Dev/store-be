@@ -15,9 +15,10 @@ export default new JWTstrategy(
   },
   async (req, token, done) => {
     try {
+      const { email } = token
       const user = await User.findOne({ where: { email } })
       if (user) {
-        req.user = user
+        req.user = user.toJSON()
         return done(null, user)
       }
       return done(null, false, { message: 'Invalid user token' })
