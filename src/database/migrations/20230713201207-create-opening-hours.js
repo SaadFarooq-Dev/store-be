@@ -2,27 +2,34 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Stores', {
+    await queryInterface.createTable('OpeningHours', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      userId: {
+      storeId: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'Stores',
           key: 'id',
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+      },
+      dayOfWeek: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      startTime: {
+        type: Sequelize.TIME,
+        allowNull: false,
+      },
+      endTime: {
+        type: Sequelize.TIME,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Stores');
+    await queryInterface.dropTable('OpeningHours');
   }
 };

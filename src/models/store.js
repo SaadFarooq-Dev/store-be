@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Store.belongsTo(models.User, { foreignKey: 'userId' })
+      Store.hasMany(models.OpeningHours, {as: 'openingHours', foreignKey:'storeId'})
     }
   }
   Store.init({
@@ -24,6 +25,10 @@ export default (sequelize, DataTypes) => {
       allowNull: {
         args: false,
         msg: 'Please enter your store name',
+      },
+      unique: {
+        args: true,
+        msg: 'Name already exists',
       },
       required: true
     },
