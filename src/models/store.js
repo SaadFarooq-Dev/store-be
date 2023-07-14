@@ -10,7 +10,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Store.belongsTo(models.User, { foreignKey: 'userId' })
-      Store.hasMany(models.OpeningHours, {as: 'openingHours', foreignKey:'storeId'})
+      Store.hasMany(models.OpeningHours, { as: 'openingHours', foreignKey: 'storeId' })
     }
   }
   Store.init({
@@ -40,8 +40,10 @@ export default (sequelize, DataTypes) => {
         msg: 'User must exist for a store',
       },
       required: true,
-      references: 'Users',
-      referencesKey: 'id'
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     }
   }, {
     sequelize,

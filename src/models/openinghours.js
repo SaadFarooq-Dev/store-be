@@ -28,8 +28,10 @@ export default (sequelize, DataTypes) => {
         msg: 'Store must exist for a hours attribute',
       },
       required: true,
-      references: 'Stores',
-      referencesKey: 'id'
+      references: {
+        model: 'Stores',
+        key: 'id'
+      }
     },
     dayOfWeek: {
       type: DataTypes.INTEGER,

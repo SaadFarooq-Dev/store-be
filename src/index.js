@@ -7,8 +7,10 @@ import morgan from 'morgan'
 import errorHandler from './middleware/errorHandler';
 import _initializePassport from './config/passport'
 import router from './routes';
+import db from './models'
 
 const app = express();
+db.sequelize.sync();
 
 app.use(cors('*'))
 app.use(morgan('tiny'))
