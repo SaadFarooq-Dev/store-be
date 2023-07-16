@@ -1,7 +1,7 @@
 import checkOverlappingHours from '../helpers/checkOverlappingHours';
 import model from '../models';
 
-const { OpeningHours } = model
+const { OpeningHours, sequelize } = model
 
 export const createStoreOpeningHour = async (req, res, next) => {
 
@@ -65,7 +65,16 @@ export const getStoreOpeningHours = async (req, res, next) => {
   const storeId = req.params.id
 
   try {
-    const openingHours = await OpeningHours.findAll({ where: { storeId: storeId }, order: [['dayOfWeek', 'ASC'], ['startTime', 'ASC']] })
+    const openingHours = await OpeningHours.findAll({
+      where: { storeId: storeId },
+      attributes: [
+        'storeId',
+        'dayOfWeek',
+        [sequelize.literal(`array_agg(jsonb_build_object('startTime', "startTime", 'endTime', "endTime"))`), 'schedule']
+      ],
+      group: ['storeId', 'dayOfWeek'],
+      order: [['dayOfWeek', 'ASC']]
+    })
     return res.status(200).json({ message: 'Success', openingHours })
   } catch (error) {
     next(error)
