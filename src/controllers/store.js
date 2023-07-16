@@ -1,6 +1,6 @@
 import model from '../models';
 
-const { Store } = model
+const { Store, User } = model
 
 export const createStore = async (req, res, next) => {
   const { name } = req.body
@@ -14,7 +14,7 @@ export const createStore = async (req, res, next) => {
 
 export const getAllUserStores = async (req, res, next) => {
   try {
-    const stores = await Store.findAll({ where: { userId: req.user.id } })
+    const stores = await Store.findAll({ where: { userId: req.user.id }, include: [{ model: User }] })
     return res.status(200).json({ message: 'Success', stores })
   } catch (error) {
     next(error)
@@ -40,9 +40,9 @@ export const getStore = async (req, res, next) => {
 export const updateStore = async (req, res, next) => {
   try {
     const id = req.params.id
-    const userId  = req.user.id
+    const userId = req.user.id
 
-    const [ rowsUpdate, [store] ] = await Store.update(req.body, { where: { id: id, userId: userId }, returning: true })
+    const [rowsUpdate, [store]] = await Store.update(req.body, { where: { id: id, userId: userId }, returning: true })
 
     if (store) {
       return res.status(200).json({ message: 'Success', store })
@@ -56,9 +56,9 @@ export const updateStore = async (req, res, next) => {
 export const deleteStore = async (req, res, next) => {
   try {
     const id = req.params.id
-    const userId  = req.user.id
+    const userId = req.user.id
 
-    const store = await Store.destroy({ where: { id: id, userId: userId }})
+    const store = await Store.destroy({ where: { id: id, userId: userId } })
 
     if (store) {
       return res.status(200).json({ message: 'Success', store })
