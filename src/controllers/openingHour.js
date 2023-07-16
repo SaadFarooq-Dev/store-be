@@ -1,25 +1,33 @@
 import checkOverlappingHours from '../helpers/checkOverlappingHours';
 import model from '../models';
 
-const { OpeningHours, Store } = model
+const { OpeningHours } = model
 
 export const createStoreOpeningHour = async (req, res, next) => {
 
   const storeId = req.params.id
-
-  const { dayOfWeek, startTime, endTime } = req.body
-  if (startTime >= endTime) {
-    return res.status(400).json({ error: 'Invalid opening Hours' })
-  }
+  const data = req.body
 
   try {
-    const invalidHours = await checkOverlappingHours(storeId, dayOfWeek, startTime, endTime)
+    let openingHoursToCreate = []
+    const existingStoreHours = await OpeningHours.findAll({ where: { storeId: storeId }, order: [['dayOfWeek', 'ASC'], ['startTime', 'ASC']] });
 
-    if (invalidHours) {
-      return res.status(400).json({ error: 'OverLapping opening Hours' })
+    for (const storeHour of data) {
+      const { dayOfWeek, startTime, endTime } = storeHour;
+      const overlappingStore = existingStoreHours.find((existingHour) =>
+        existingHour.dayOfWeek === dayOfWeek &&
+        (
+          (existingHour.startTime < endTime && existingHour.endTime > startTime) ||
+          (existingHour.startTime >= startTime && existingHour.endTime <= endTime)
+        )
+      );
+      if (overlappingStore || startTime > endTime) {
+        return res.status(400).json({ error: startTime > endTime ? 'Invalid start and end time.' : 'Overlapping store hours.' });
+      }
+      openingHoursToCreate.push({ storeId, dayOfWeek, startTime, endTime })
     }
 
-    const openingHours = await OpeningHours.create({ storeId, dayOfWeek, startTime, endTime })
+    const openingHours = await OpeningHours.bulkCreate(openingHoursToCreate, { returning: true })
     return res.status(200).json({ message: 'Success', openingHours })
   } catch (error) {
     next(error)

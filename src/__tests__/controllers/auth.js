@@ -86,7 +86,7 @@ describe('Auth Controller', () => {
       const response = await request(app)
       .post('/auth/signup')
       .send(user);
-      console.log(response.body);
+
       expect(response.statusCode).toBe(500);
       expect(response.body).toHaveProperty('errors');
       expect(response.body.errorMessage).toBe('data and salt arguments required');
