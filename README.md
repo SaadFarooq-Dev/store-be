@@ -197,7 +197,7 @@ The backend directory contains the following files and folders:
 
 | Header | Body | Type     | Description                        |
 | :--------| :-------- | :------- | :----------------------------------|
-| x-auth-token | `none`    | `none` | Delete a store opening hours |
+| x-auth-token | `dayOfWeek`    | `json` | Delete a store opening hours |
 
 
 ## Security Considerations
