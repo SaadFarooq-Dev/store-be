@@ -83,9 +83,10 @@ export const getStoreOpeningHours = async (req, res, next) => {
 
 export const deleteStoreOpeningHours = async (req, res, next) => {
   const storeId = req.params.id
+  const { dayOfWeek } = req.body;
   try {
 
-    const openingHours = await OpeningHours.destroy({ where: { storeId: storeId } })
+    const openingHours = await OpeningHours.destroy({ where: { storeId: storeId, dayOfWeek: dayOfWeek } })
     return res.status(200).json({ message: 'Success', openingHours })
 
   } catch (error) {
