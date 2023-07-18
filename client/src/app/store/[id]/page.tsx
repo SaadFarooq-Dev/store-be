@@ -198,7 +198,7 @@ export default function page({ params }: { params: { id: string } }) {
             </thead>
             <tbody>
               {schedulesQuery.data &&
-                schedulesQuery?.data?.openingHours.map((day) => {
+                schedulesQuery?.data?.openingHours.map((day: any) => {
                   return (
                     <tr className="bg-white border-b" key={day.dayOfWeek}>
                       <td
@@ -208,7 +208,7 @@ export default function page({ params }: { params: { id: string } }) {
                         {dayNames[day.dayOfWeek]}
                       </td>
                       <td className="px-6 py-4">
-                        {day?.schedule?.map((hour, scheduleIndex) => {
+                        {day?.schedule?.map((hour: any, scheduleIndex: any) => {
                           return (
                             <p key={scheduleIndex}>
                               {hour.startTime} - {hour.endTime}
@@ -228,146 +228,6 @@ export default function page({ params }: { params: { id: string } }) {
                     </tr>
                   );
                 })}
-              {/* <tr className="bg-white border-b">
-                <td
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Monday
-                </td>
-                <td className="px-6 py-4">
-                  {schedulesQuery?.data?.openingHours[0]?.dayOfWeek === 0 ? (
-                    schedulesQuery?.data?.openingHours[0]?.schedule?.map(
-                      (hour, index) => {
-                        return (
-                          <p key={index}>
-                            {hour.startTime} - {hour.endTime}
-                          </p>
-                        );
-                      }
-                    )
-                  ) : (
-                    <p className="italic">Closed</p>
-                  )}
-                </td>
-
-                <td className="px-6 py-4">
-                  <button
-                    className="font-medium text-blue-600 hover:underline"
-                    onClick={() => handleScheduleDelete(0)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-              <tr className="bg-white border-b">
-                <td
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Tuesday
-                </td>
-                <td className="px-6 py-4">
-                <td className="px-6 py-4">
-                  {schedulesQuery?.data?.openingHours[0]?.dayOfWeek === 0 ? (
-                    schedulesQuery?.data?.openingHours[0]?.schedule?.map(
-                      (hour, index) => {
-                        return (
-                          <p key={index}>
-                            {hour.startTime} - {hour.endTime}
-                          </p>
-                        );
-                      }
-                    )
-                  ) : (
-                    <p className="italic">Closed</p>
-                  )}
-                </td>
-
-                <td className="px-6 py-4">
-                  <button
-                    className="font-medium text-blue-600 hover:underline"
-                    onClick={() => handleScheduleDelete(0)}
-                  >
-                    Delete
-                  </button>
-                </td>                </td>
-                <td className="px-6 py-4">
-                  <button className="font-medium text-blue-600 hover:underline">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-              <tr className="bg-white border-b">
-                <td
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Wednesday
-                </td>
-                <td className="px-6 py-4">8:00 AM - 5:00 PM</td>
-                <td className="px-6 py-4">
-                  <button className="font-medium text-blue-600 hover:underline">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-              <tr className="bg-white border-b">
-                <td
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Thursday
-                </td>
-                <td className="px-6 py-4">8:00 AM - 5:00 PM</td>
-                <td className="px-6 py-4">
-                  <button className="font-medium text-blue-600 hover:underline">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-              <tr className="bg-white border-b">
-                <td
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Friday
-                </td>
-                <td className="px-6 py-4">8:00 AM - 5:00 PM</td>
-                <td className="px-6 py-4">
-                  <button className="font-medium text-blue-600 hover:underline">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-              <tr className="bg-white border-b">
-                <td
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Saturday
-                </td>
-                <td className="px-6 py-4">8:00 AM - 5:00 PM</td>
-                <td className="px-6 py-4">
-                  <button className="font-medium text-blue-600 hover:underline">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-              <tr className="bg-white border-b">
-                <td
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Sunday
-                </td>
-                <td className="px-6 py-4">8:00 AM - 5:00 PM</td>
-                <td className="px-6 py-4">
-                  <button className="font-medium text-blue-600 hover:underline">
-                    Delete
-                  </button>
-                </td>
-              </tr> */}
             </tbody>
           </table>
         </div>

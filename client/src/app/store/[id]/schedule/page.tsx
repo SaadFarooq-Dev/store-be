@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
+type SelectedDaysType = {
+  [key: string]: boolean;
+};
+
 async function createStoreSchedule({ id, data }: { id: string; data: any }) {
   const token = localStorage.getItem("token");
   const res = await fetch(`${process.env.BASE_URL}/store/${id}/openinghours`, {
@@ -39,7 +43,7 @@ export default function page({ params }: { params: { id: string } }) {
     Sunday: false,
   };
 
-  const [selectedDays, setSelectedDays] = useState(initialSelectedDays);
+  const [selectedDays, setSelectedDays] = useState<SelectedDaysType>(initialSelectedDays);
 
   const handleOpeningChange = (time: Dayjs | null) => {
     setOpeningTime(time);
@@ -175,7 +179,7 @@ export default function page({ params }: { params: { id: string } }) {
                     name={option.day}
                     id={option.day}
                     value={option.day}
-                    checked={selectedDays[option.day]}
+                    checked={selectedDays[option.day] }
                     onChange={(e) => {
                       const { checked } = e.target;
                       setSelectedDays((prevSelectedDays) => ({
