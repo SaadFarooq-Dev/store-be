@@ -23,7 +23,9 @@ async function registerUser(data: FormType) {
     },
     body: JSON.stringify(data),
   });
-
+  if (!res.ok) {
+    throw new Error("Registeration Failed");
+  }
   const responseJson = await res.json();
   return responseJson;
 }
@@ -39,6 +41,9 @@ export default function Register() {
     mutationFn: registerUser,
     onSuccess: (res) => {
       toast.success("Sucessfully registered");
+    },
+    onError: (err: any) => {
+      toast.error(err.message);
     },
   });
 
@@ -122,6 +127,7 @@ export default function Register() {
               <button
                 className="font-medium inline-flex items-center justify-center border border-transparent rounded leading-snug transition duration-150 ease-in-out text-white bg-blue-600 hover:bg-blue-700 px-8 py-3 shadow-lg w-full"
                 type="submit"
+                disabled = {mutation.isLoading}
               >
                 {"Sign up"}
               </button>
